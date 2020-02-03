@@ -22,6 +22,15 @@ exports.up = function(knex) {
         .unique();
       tbl.string("password").notNullable();
       tbl.string("name").notNullable();
+      tbl
+        .integer("parent_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("parent")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+
       tbl.string("role");
     });
 };
