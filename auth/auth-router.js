@@ -22,14 +22,18 @@ router.post("/register", (req, res) => {
     username,
     password: hash,
     name,
-    email
+    email,
+    role: "parent"
   })
     .then(parent => {
-      res.status(201).json(parent);
+      const token = signToken(parent);
+      return res
+        .status(201)
+        .json({ message: `Welcome ${parent.username}!`, token, ...parent });
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({
+      return res.status(500).json({
         errorMessage: "problem with registering to the database"
       });
     });
