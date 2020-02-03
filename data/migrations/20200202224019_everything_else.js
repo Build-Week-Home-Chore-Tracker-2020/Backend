@@ -4,6 +4,7 @@ exports.up = function(knex) {
       tbl.increments();
       tbl.string("name", 128).notNullable();
       tbl.text("description").notNullable();
+      tbl.integer("points").defaultTo(100);
       tbl.dateTime("createdAt").defaultTo(knex.fn.now());
       tbl.dateTime("updatedAt").defaultTo(knex.fn.now());
     })
