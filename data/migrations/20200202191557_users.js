@@ -34,6 +34,7 @@ exports.up = function(knex) {
       tbl.string("role");
       tbl.integer("total_points").defaultTo(0);
       tbl.integer("current_streaks").defaultTo(0);
+      tbl.integer("highest_points").defaultTo(0);
     });
 };
 
