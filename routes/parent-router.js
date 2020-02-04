@@ -52,6 +52,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//updated parent profile is working
 router.put("/:id", (req, res) => {
   const { username, name, email } = req.body;
   if (!username) {

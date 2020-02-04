@@ -29,8 +29,14 @@ function findById(id) {
     .first();
 }
 
-//this needs to update the points as well i think??
-function updateChild(updated) {}
+function updateChild(id, updated) {
+  return db("child")
+    .where({ id })
+    .update(updated)
+    .then(() => {
+      return findById(id);
+    });
+}
 
 function getChildChores(id) {
   return db("child_details")
