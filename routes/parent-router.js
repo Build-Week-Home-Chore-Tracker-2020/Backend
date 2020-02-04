@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const Parent = require("../users/parent-model");
+const Parent = require("../models/parent-model");
 
 //getting children of a parent is working
 router.get("/children/:id", (req, res) => {

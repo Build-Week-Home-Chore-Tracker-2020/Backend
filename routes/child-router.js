@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const Child = require("../users/child-model");
+const Child = require("../models/child-model");
 
 //get child by ID working
 router.get("/:id", (req, res) => {

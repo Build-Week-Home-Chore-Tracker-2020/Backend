@@ -1,5 +1,5 @@
-Parents = require("../users/parent-model");
-Child = require("../users/child-model");
+Parents = require("../models/parent-model");
+Child = require("../models/child-model");
 const { signToken, authenticate } = require("./utils");
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
