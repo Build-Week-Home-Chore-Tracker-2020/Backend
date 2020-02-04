@@ -58,7 +58,6 @@ router.post("/login", (req, res) => {
       } else {
         if (user && bcrypt.compareSync(password, user.password)) {
           const token = signToken(user);
-          delete user.password;
           res.status(200).json({
             message: `Welcome ${user.username}!`,
             token,
@@ -124,7 +123,6 @@ router.post("/login/child", (req, res) => {
       } else {
         if (user && bcrypt.compareSync(password, user.password)) {
           const token = signToken(user);
-          delete user.password;
           res.status(200).json({
             message: `Welcome ${user.username}!`,
             token,

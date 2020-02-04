@@ -3,12 +3,15 @@ const router = require("express").Router();
 const Chores = require("../models/chore-model");
 const Child = require("../models/child-model");
 
-//getting all chores is working
-router.get("/", (req, res) => {
-  Chores.find()
+const { authenticate } = require("../auth/utils");
+
+//getting all common chores is working
+router.get("/commonChores", (req, res) => {
+  Chores.findByParentId(1)
     .then(chores => {
       return res.status(200).json(chores);
     })
+
     .catch(error => {
       console.log(error);
       return res.status(500).json({
@@ -17,8 +20,23 @@ router.get("/", (req, res) => {
     });
 });
 
-//creating a new chore is working
-router.post("/", (req, res) => {
+//chores matching parent id working
+// router.get("/:parentId", authenticate, (req, res) => {
+//   Chores.findByParentId(req.params.parentId).then(chores => {
+//     return res.status(200).json(chores);
+//   });
+// });
+
+router.get("/:parentId", (req, res) => {
+  Chores.findByParentId(req.params.parentId).then(chores => {
+    Chores.findByParentId(1).then(common => {
+      const all = [...common, ...chores];
+      return res.status(200).json(all);
+    });
+  });
+});
+
+router.post("/:parentId", (req, res) => {
   const { name, description } = req.body;
   if (!name) {
     return res.status(400).json({
@@ -30,7 +48,7 @@ router.post("/", (req, res) => {
       message: "Please provide a description"
     });
   }
-  Chores.add(req.body)
+  Chores.add({ ...req.body, parent_id: req.params.parentId })
     .then(chore => {
       return res.status(201).json(chore);
     })
