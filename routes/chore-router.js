@@ -103,7 +103,8 @@ router.post("/child/:id", (req, res) => {
   });
 });
 
-router.delete("/child/:id", (req, res) => {
+//deleting chore from child works, may want to add child id to endpoint??? or just have it as /:id?
+router.delete("/child/:id/", (req, res) => {
   Chores.removeChoreFromChild(req.params.id).then(() => {
     return res.status(200).json({ message: "success" });
   });

@@ -42,6 +42,8 @@ function addChoretoChild(chore) {
     });
 }
 
-function removeChoreFromChild(choreId) {
-  return db("child_details").del(choreId);
+function removeChoreFromChild(id) {
+  return db("child_details")
+    .where({ id })
+    .del();
 }
