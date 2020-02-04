@@ -26,3 +26,14 @@ function findById(id) {
     .where({ id })
     .first();
 }
+
+function addChoretoChild(chore) {
+  return db("child_details")
+    .insert(chore)
+    .then(ids => {
+      return ids;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}

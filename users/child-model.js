@@ -4,7 +4,8 @@ module.exports = {
   add,
   find,
   findBy,
-  findById
+  findById,
+  getChildChores
 };
 
 function find() {
@@ -25,4 +26,22 @@ function findById(id) {
   return db("child")
     .where({ id })
     .first();
+}
+
+// select chores.name, chores.description, chores.points, child_details.completed, child_details.createdAt, child_details.updatedAt
+// from child_details
+// join chores on chores.id = child_details.chore_id
+// where child_details.child_id = 1
+function getChildChores(id) {
+  return db("child_details")
+    .select(
+      "chores.name",
+      "chores.description",
+      "chores.points",
+      "child_details.completed",
+      "child_detials.createdAt",
+      "child_details.updatedAt"
+    )
+    .join("chores", "chores.id", "child_details.chore_id")
+    .where("child_details.child_id", id);
 }
