@@ -4,11 +4,12 @@ module.exports = {
   add,
   find,
   findBy,
-  findById
+  findById,
+  getParentChildren
 };
 
 function find() {
-  return db("parent").select("id", "username", "password");
+  return db("parent");
 }
 
 async function add(parent) {
@@ -25,4 +26,24 @@ function findById(id) {
   return db("parent")
     .where({ id })
     .first();
+}
+
+// select child.id, child.name, child.role, child.parent_id, child.current_streaks, child.total_points, child.highest_points
+// from child
+// join parent on parent.id = child.parent_id
+// where child.parent_id = 1
+
+function getParentChildren(id) {
+  return db("child")
+    .select(
+      "child.id",
+      "child.name",
+      "child.role",
+      "child.parent_id",
+      "child.current_streaks",
+      "child.total_points",
+      "child.highest_points"
+    )
+    .join("parent", "parent.id", "child.parent_id")
+    .where("child.parent_id", id);
 }

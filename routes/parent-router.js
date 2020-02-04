@@ -1,47 +1,54 @@
 const router = require("express").Router();
 
-//kids of a parent
+const Parent = require("../users/parent-model");
+
+//getting children of a parent is working
 router.get("/children/:id", (req, res) => {
-  res.json([
-    {
-      id: 1,
-      name: "Joe",
-      role: "child",
-      parent_id: 1,
-      current_streaks: 0,
-      total_points: 0,
-      highest_points: 0
-    },
-    {
-      id: 2,
-      name: "Mary",
-      role: "child",
-      parent_id: 1,
-      current_streaks: 0,
-      total_points: 0,
-      highest_points: 0
-    },
-    {
-      id: 3,
-      name: "Bob",
-      role: "child",
-      parent_id: 1,
-      current_streaks: 0,
-      total_points: 0,
-      highest_points: 0
-    }
-  ]);
+  Parent.findById(req.params.id)
+    .then(parent => {
+      if (!parent) {
+        return res.status(404).json({
+          errorMessage: "Parent by provided Id does not exist"
+        });
+      } else {
+        Parent.getParentChildren(req.params.id)
+          .then(children => {
+            return res.status(200).json(children);
+          })
+          .catch(error => {
+            console.log(error);
+            return res.status(500).json({
+              errorMessage: "Problem getting children from database"
+            });
+          });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Problem getting data from parent database"
+      });
+    });
 });
 
-//parent info
+//getting a parent by Id working
 router.get("/:id", (req, res) => {
-  res.json({
-    id: 1,
-    name: "Karen",
-    username: "karen01",
-    role: "parent",
-    email: "karen@gmail.com"
-  });
+  Parent.findById(req.params.id)
+    .then(parent => {
+      if (!parent) {
+        return res.status(404).json({
+          errorMessage: "Parent by that Id does not exist"
+        });
+      } else {
+        delete parent.password;
+        return res.status(200).json(parent);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Problem getting parent from database"
+      });
+    });
 });
-
 module.exports = router;

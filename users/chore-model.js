@@ -4,11 +4,13 @@ module.exports = {
   add,
   find,
   findBy,
-  findById
+  findById,
+  addChoretoChild,
+  removeChoreFromChild
 };
 
 function find() {
-  return db("chores").select("id", "username", "password");
+  return db("chores");
 }
 
 async function add(chore) {
@@ -18,11 +20,28 @@ async function add(chore) {
 }
 
 function findBy(filter) {
-  return db("chores").where(filter);
+  return db("chores")
+    .where(filter)
+    .first();
 }
 
 function findById(id) {
   return db("chores")
     .where({ id })
     .first();
+}
+
+function addChoretoChild(chore) {
+  return db("child_details")
+    .insert(chore)
+    .then(ids => {
+      return ids;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+function removeChoreFromChild(chore) {
+  return db(child_details).del(chore);
 }
