@@ -38,8 +38,9 @@ function getChildChores(id) {
       "chores.name",
       "chores.description",
       "chores.points",
+      "child_details.id",
       "child_details.completed",
-      "child_detials.createdAt",
+      "child_details.createdAt",
       "child_details.updatedAt"
     )
     .join("chores", "chores.id", "child_details.chore_id")

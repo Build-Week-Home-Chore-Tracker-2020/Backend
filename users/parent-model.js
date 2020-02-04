@@ -9,7 +9,7 @@ module.exports = {
 };
 
 function find() {
-  return db("parent").select("id", "username", "password");
+  return db("parent");
 }
 
 async function add(parent) {
@@ -44,6 +44,6 @@ function getParentChildren(id) {
       "child.total_points",
       "child.highest_points"
     )
-    .join("parents", "parent.id", "child.parent_id")
+    .join("parent", "parent.id", "child.parent_id")
     .where("child.parent_id", id);
 }
