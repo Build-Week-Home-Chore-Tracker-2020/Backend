@@ -139,4 +139,6 @@ router.post("/login/child", (req, res) => {
     });
 });
 
+//update child profile here//
+
 module.exports = router;
