@@ -62,6 +62,7 @@ router.get("/child/:id", (req, res) => {
     });
 });
 
+//add a chore to a child working
 router.post("/child/:id", (req, res) => {
   const { name } = req.body;
   if (!name) {
@@ -102,8 +103,12 @@ router.post("/child/:id", (req, res) => {
   });
 });
 
-// router.delete("/child/:id", (req, res) => {
-//   Chores.removeChoreFromChild();
-// });
+router.delete("/child/:id", (req, res) => {
+  Chores.removeChoreFromChild(req.params.id).then(() => {
+    return res.status(200).json({ message: "success" });
+  });
+});
+
+// router.put();
 
 module.exports = router;

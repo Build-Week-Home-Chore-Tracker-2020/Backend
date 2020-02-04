@@ -42,6 +42,6 @@ function addChoretoChild(chore) {
     });
 }
 
-function removeChoreFromChild(chore) {
-  return db(child_details).del(chore);
+function removeChoreFromChild(choreId) {
+  return db("child_details").del(choreId);
 }
