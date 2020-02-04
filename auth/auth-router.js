@@ -73,8 +73,6 @@ router.post("/login", (req, res) => {
     });
 });
 
-//update parent here //
-
 router.post("/register/:id", (req, res) => {
   const { username, password, name } = req.body;
   if (!username) {
