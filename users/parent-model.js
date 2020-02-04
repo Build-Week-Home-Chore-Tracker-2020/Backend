@@ -5,7 +5,8 @@ module.exports = {
   find,
   findBy,
   findById,
-  getParentChildren
+  getParentChildren,
+  updateParent
 };
 
 function find() {
@@ -27,6 +28,7 @@ function findById(id) {
     .where({ id })
     .first();
 }
+function updateParent(updated) {}
 
 // select child.id, child.name, child.role, child.parent_id, child.current_streaks, child.total_points, child.highest_points
 // from child

@@ -5,7 +5,8 @@ module.exports = {
   find,
   findBy,
   findById,
-  getChildChores
+  getChildChores,
+  updateChild
 };
 
 function find() {
@@ -28,10 +29,14 @@ function findById(id) {
     .first();
 }
 
+//this needs to update the points as well i think??
+function updateChild(updated) {}
+
 // select chores.name, chores.description, chores.points, child_details.completed, child_details.createdAt, child_details.updatedAt
 // from child_details
 // join chores on chores.id = child_details.chore_id
 // where child_details.child_id = 1
+
 function getChildChores(id) {
   return db("child_details")
     .select(

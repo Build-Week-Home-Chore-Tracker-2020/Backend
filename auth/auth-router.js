@@ -73,6 +73,8 @@ router.post("/login", (req, res) => {
     });
 });
 
+//update parent here //
+
 router.post("/register/:id", (req, res) => {
   const { username, password, name } = req.body;
   if (!username) {
@@ -138,5 +140,7 @@ router.post("/login/child", (req, res) => {
       return res.status(500).json({ errorMessage: "error logging in" });
     });
 });
+
+//update child profile here//
 
 module.exports = router;
