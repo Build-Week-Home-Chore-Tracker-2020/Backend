@@ -20,6 +20,7 @@ router.get("/commonChores", (req, res) => {
     });
 });
 
+//this endpoint gets the chores just for that familly
 //chores matching parent id working
 // router.get("/:parentId", authenticate, (req, res) => {
 //   Chores.findByParentId(req.params.parentId).then(chores => {
@@ -27,6 +28,7 @@ router.get("/commonChores", (req, res) => {
 //   });
 // });
 
+//this endpoint combines all the common chores and the chores made for that family
 router.get("/:parentId", (req, res) => {
   Chores.findByParentId(req.params.parentId).then(chores => {
     Chores.findByParentId(1).then(common => {
