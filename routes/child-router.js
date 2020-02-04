@@ -23,8 +23,25 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// router.put("/:id", (req, res) => {});
-
-// router.delete("/:id", (req, res) => {});
+router.put("/:id", (req, res) => {
+  const { username, name } = req.body;
+  if (!username) {
+    return res.status(400).json({ message: "Username is required" });
+  }
+  if (!name) {
+    return res.status(400).json({ message: "Please provide a name" });
+  }
+  Child.updateChild(req.params.id, req.body)
+    .then(updated => {
+      delete updated.password;
+      return res.status(200).json(updated);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Problem updated child profile"
+      });
+    });
+});
 
 module.exports = router;
