@@ -38,8 +38,12 @@ router.get("/comChores", (req, res) => {
 });
 
 //this endpoint gets the chores just for that familly
-//needs some validation
 router.get("/:parentId", (req, res) => {
+  if (!req.params.parentId) {
+    return res.status(404).json({
+      errorMessage: "Id of parent does not exist"
+    });
+  }
   Chores.findByParentId(req.params.parentId)
     .then(chores => {
       return res.status(200).json(chores);
@@ -53,8 +57,12 @@ router.get("/:parentId", (req, res) => {
 });
 
 //this endpoint combines all the common chores and the chores made for that family
-//needs some validation
 router.get("/comChores/:parentId", (req, res) => {
+  if (!req.params.parentId) {
+    return res.status(404).json({
+      errorMessage: "Id of parent does not exist"
+    });
+  }
   Chores.findByParentId(req.params.parentId)
     .then(chores => {
       Chores.findByParentId(1).then(common => {
