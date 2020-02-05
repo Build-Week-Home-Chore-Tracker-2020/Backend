@@ -98,6 +98,7 @@ router.get("/child/:id", (req, res) => {
     });
 });
 
+//this combines child info and their chores
 router.get("/combined/:id", (req, res) => {
   Child.findById(req.params.id)
     .then(child => {
@@ -163,7 +164,12 @@ router.post("/child/:id", (req, res) => {
 
 //deleting chore from child works, may want to add child id to endpoint??? or just have it as /:id?
 //wondering if this still works?
-router.delete("/child/:choreId", (req, res) => {
+router.delete("/child/:id/:choreId", (req, res) => {
+  if (!req.params.id) {
+    return res.status(404).json({
+      errorMessage: "Id of that child does not exist"
+    });
+  }
   Chores.removeChoreFromChild(req.params.choreId)
     .then(chore => {
       if (!chore) {
