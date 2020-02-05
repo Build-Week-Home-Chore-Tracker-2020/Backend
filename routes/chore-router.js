@@ -3,7 +3,19 @@ const router = require("express").Router();
 const Chores = require("../models/chore-model");
 const Child = require("../models/child-model");
 
-const { authenticate } = require("../auth/utils");
+//get a specific chore by id
+router.get("/chore/:choreId", (req, res) => {
+  Chores.findById(req.params.choreId)
+    .then(chore => {
+      return res.status(200).json(chore);
+    })
+    .catch(error => {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ errorMessage: "Problem getting chore from database" });
+    });
+});
 
 //getting all common chores is working
 router.get("/comChores", (req, res) => {
@@ -22,7 +34,7 @@ router.get("/comChores", (req, res) => {
 
 //this endpoint gets the chores just for that familly
 //needs some validation
-router.get("/:parentId", authenticate, (req, res) => {
+router.get("/:parentId", (req, res) => {
   Chores.findByParentId(req.params.parentId)
     .then(chores => {
       return res.status(200).json(chores);
@@ -188,7 +200,37 @@ router.delete("/child/:id/:choreId", (req, res) => {
     });
 });
 
-// router.put();
-//do I want to add a delete for family chores??
+//updates a family chore
+router.put("/chore/:choreId", (req, res) => {
+  const { name, description } = req.body;
+  if (!name) {
+    return res.status(400).json({ errorMessage: "Chore needs a name" });
+  }
+  if (!description) {
+    return res.status(400).json({ errorMessage: "Chore needs a description" });
+  }
+  Chores.updateChore(req.params.choreId, req.body)
+    .then(updated => {
+      return res.status(200).json(updated);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({ errorMessage: "Problem updateding chore" });
+    });
+});
+
+//deletes a family chore
+router.delete("/chore/:choreId", (req, res) => {
+  Chores.removeChorefromList(req.params.choreId)
+    .then(deleted => {
+      return res
+        .status(200)
+        .json({ message: "Chore was successfully deleted" });
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({ errorMessage: "Problem deleting chore" });
+    });
+});
 
 module.exports = router;
