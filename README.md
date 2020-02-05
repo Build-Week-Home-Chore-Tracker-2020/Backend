@@ -2,7 +2,7 @@
 
 # Chore Tracking API
 
-The back-end for the Lambda School Build Week Chore Tracking project.
+The back-end for the Lambda School Build Week Chore Tracking project. There is seperate endpoints for a lot of data and also some combined. Choose endpoints to fit your needs!
 
 ## Base URL
 
