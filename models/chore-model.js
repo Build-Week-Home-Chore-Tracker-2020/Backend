@@ -6,7 +6,8 @@ module.exports = {
   findBy,
   findById,
   addChoretoChild,
-  removeChoreFromChild
+  removeChoreFromChild,
+  findByParentId
 };
 
 function find() {
@@ -29,6 +30,10 @@ function findById(id) {
   return db("chores")
     .where({ id })
     .first();
+}
+
+function findByParentId(parent_id) {
+  return db("chores").where({ parent_id });
 }
 
 function addChoretoChild(chore) {

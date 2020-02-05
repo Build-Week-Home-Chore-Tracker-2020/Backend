@@ -7,6 +7,15 @@ exports.up = function(knex) {
       tbl.integer("points").defaultTo(100);
       tbl.dateTime("createdAt").defaultTo(knex.fn.now());
       tbl.dateTime("updatedAt").defaultTo(knex.fn.now());
+
+      tbl
+        .integer("parent_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("parent")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
     })
     .createTable("child_details", tbl => {
       tbl.increments();

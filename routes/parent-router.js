@@ -13,6 +13,11 @@ router.get("/children/:id", (req, res) => {
       } else {
         Parent.getParentChildren(req.params.id)
           .then(children => {
+            // if ([]) {
+            //   return res.status(404).json({
+            //     message: "no children were found from this parent"
+            //   });
+            // }
             return res.status(200).json(children);
           })
           .catch(error => {
@@ -52,6 +57,29 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//this endpoint combines the Parent information and children is attatched as a seperate array
+//validation
+router.get("/combined/:id", (req, res) => {
+  Parent.findById(req.params.id)
+    .then(parent => {
+      if (!parent) {
+        return res.status(404).json({
+          errorMessage: "Parent by that Id does not exist"
+        });
+      } else {
+        Parent.getParentChildren(req.params.id).then(children => {
+          return res.status(200).json({ parent, children });
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Problem getting parent from database"
+      });
+    });
+});
+
 //updated parent profile is working
 router.put("/:id", (req, res) => {
   const { username, name, email } = req.body;
@@ -76,5 +104,7 @@ router.put("/:id", (req, res) => {
       });
     });
 });
+
+// router.delete()
 
 module.exports = router;

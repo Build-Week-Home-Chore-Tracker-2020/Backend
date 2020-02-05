@@ -3,12 +3,15 @@ const router = require("express").Router();
 const Chores = require("../models/chore-model");
 const Child = require("../models/child-model");
 
-//getting all chores is working
-router.get("/", (req, res) => {
-  Chores.find()
+const { authenticate } = require("../auth/utils");
+
+//getting all common chores is working
+router.get("/comChores", (req, res) => {
+  Chores.findByParentId(1)
     .then(chores => {
       return res.status(200).json(chores);
     })
+
     .catch(error => {
       console.log(error);
       return res.status(500).json({
@@ -17,8 +20,41 @@ router.get("/", (req, res) => {
     });
 });
 
-//creating a new chore is working
-router.post("/", (req, res) => {
+//this endpoint gets the chores just for that familly
+//needs some validation
+router.get("/:parentId", authenticate, (req, res) => {
+  Chores.findByParentId(req.params.parentId)
+    .then(chores => {
+      return res.status(200).json(chores);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Problem finding chores from database"
+      });
+    });
+});
+
+//this endpoint combines all the common chores and the chores made for that family
+//needs some validation
+router.get("/comChores/:parentId", (req, res) => {
+  Chores.findByParentId(req.params.parentId)
+    .then(chores => {
+      Chores.findByParentId(1).then(common => {
+        const all = [...common, ...chores];
+        return res.status(200).json(all);
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Could not retreive chores from database"
+      });
+    });
+});
+
+//adds a chore to a family
+router.post("/:parentId", (req, res) => {
   const { name, description } = req.body;
   if (!name) {
     return res.status(400).json({
@@ -30,7 +66,7 @@ router.post("/", (req, res) => {
       message: "Please provide a description"
     });
   }
-  Chores.add(req.body)
+  Chores.add({ ...req.body, parent_id: req.params.parentId })
     .then(chore => {
       return res.status(201).json(chore);
     })
@@ -58,6 +94,28 @@ router.get("/child/:id", (req, res) => {
       console.log(error);
       return res.status(500).json({
         errorMessage: "Problem getting chores from database"
+      });
+    });
+});
+
+router.get("/combined/:id", (req, res) => {
+  Child.findById(req.params.id)
+    .then(child => {
+      if (!child) {
+        return res.status(404).json({
+          errorMessage: "Child by that Id does not exist"
+        });
+      } else {
+        Child.getChildChores(req.params.id).then(chores => {
+          delete child.password;
+          return res.status(200).json({ child, chores });
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Problem getting parent from database"
       });
     });
 });
@@ -104,8 +162,9 @@ router.post("/child/:id", (req, res) => {
 });
 
 //deleting chore from child works, may want to add child id to endpoint??? or just have it as /:id?
-router.delete("/child/:id/", (req, res) => {
-  Chores.removeChoreFromChild(req.params.id)
+//wondering if this still works?
+router.delete("/child/:choreId", (req, res) => {
+  Chores.removeChoreFromChild(req.params.choreId)
     .then(chore => {
       if (!chore) {
         return res.status(404).json({
@@ -124,5 +183,6 @@ router.delete("/child/:id/", (req, res) => {
 });
 
 // router.put();
+//do I want to add a delete for family chores??
 
 module.exports = router;
