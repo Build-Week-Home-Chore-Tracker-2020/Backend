@@ -1,7 +1,6 @@
 const router = require("express").Router();
 
 const Parent = require("../models/parent-model");
-const { authentication } = require("../auth/utils");
 
 //getting children of a parent is working
 router.get("/children/:id", (req, res) => {
@@ -14,6 +13,11 @@ router.get("/children/:id", (req, res) => {
       } else {
         Parent.getParentChildren(req.params.id)
           .then(children => {
+            // if ([]) {
+            //   return res.status(404).json({
+            //     message: "no children were found from this parent"
+            //   });
+            // }
             return res.status(200).json(children);
           })
           .catch(error => {
@@ -41,6 +45,7 @@ router.get("/:id", (req, res) => {
           errorMessage: "Parent by that Id does not exist"
         });
       } else {
+        delete parent.password;
         return res.status(200).json(parent);
       }
     })
@@ -53,6 +58,7 @@ router.get("/:id", (req, res) => {
 });
 
 //this endpoint combines the Parent information and children is attatched as a seperate array
+//validation
 router.get("/combined/:id", (req, res) => {
   Parent.findById(req.params.id)
     .then(parent => {
@@ -88,6 +94,7 @@ router.put("/:id", (req, res) => {
   }
   Parent.updateParent(req.params.id, req.body)
     .then(updated => {
+      delete updated.password;
       return res.status(200).json(updated);
     })
     .catch(error => {
@@ -97,5 +104,7 @@ router.put("/:id", (req, res) => {
       });
     });
 });
+
+// router.delete()
 
 module.exports = router;

@@ -79,7 +79,7 @@ URL: /api/auth/register/:id
 ```json
 {
   "name": "Michael ",
-  "email": "new@child.com",
+  "username": "michael01",
   "password": "password"
 }
 ```
@@ -144,7 +144,7 @@ URL: /api/auth/login
 
 HTTP Method: POST
 
-URL: /api/auth/login
+URL: /api/auth/login/child
 
 ### Headers
 
@@ -154,16 +154,16 @@ URL: /api/auth/login
 
 ### Body
 
-| Name     | Type   | Required | Description        |
-| -------- | ------ | -------- | ------------------ |
-| username | String | Yes      | username of parent |
-| password | String | Yes      | parent's password  |
+| Name     | Type   | Required | Description       |
+| -------- | ------ | -------- | ----------------- |
+| username | String | Yes      | username of child |
+| password | String | Yes      | child's password  |
 
 ### Example
 
 ```json
 {
-  "name": "Michael",
+  "username": "michael01",
   "password": "password"
 }
 ```
@@ -181,3 +181,304 @@ URL: /api/auth/login
 **500 (Internal Server Error)**
 
 > If there was a server error logging in the user, a response with status code 500 will be returned.
+
+## Get a Parent's Information
+
+HTTP Method: GET
+
+URL: /api/parent/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+{
+  "id": 2,
+  "username": "steph01",
+  "name": "Stephanie",
+  "email": "steph@email.com",
+  "role": "parent"
+}
+```
+
+### Response
+
+**200 (OK)**
+
+> If successfully found, endpoint will return HTTP response with status code and a body similar to example above
+
+**404 (Not Found)**
+
+> If no user found, status code 404 will be returned
+
+**401 (Unauthorized)**
+
+> If token information does not match user id in URL parameters status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error registering the user, a response with status code 500 will be returned.
+
+## Update a Parent's Information
+
+HTTP Method: PUT
+
+URL: /api/parent/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Body
+
+| Name     | Type   | Required | Description            |
+| -------- | ------ | -------- | ---------------------- |
+| name     | String | No       | First name of parent   |
+| username | String | No       | username of parent     |
+| email    | String | No       | Parent's email address |
+
+### Example
+
+```json
+{
+  "id": 2,
+  "username": "steph01",
+  "name": "Stephanie",
+  "email": "steph@email.com",
+  "role": "parent"
+}
+```
+
+### Response
+
+**200 (OK)**
+
+> If successfully found, endpoint will return HTTP response with status code and a body similar to example above
+
+**404 (Not Found)**
+
+> If no user found, status code 404 will be returned
+
+**401 (Unauthorized)**
+
+> If token information does not match user id in URL parameters status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error registering the user, a response with status code 500 will be returned.
+
+## Get a Childs's Information
+
+HTTP Method: GET
+
+URL: /api/child/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+{
+  "id": 2,
+  "username": "carl01",
+  "name": "Carlin",
+  "parent_id": 2,
+  "role": "child",
+  "total_points": 0,
+  "current_streaks": 0,
+  "highest_points": 0
+}
+```
+
+### Response
+
+**200 (OK)**
+
+> If successfully found, endpoint will return HTTP response with status code and a body similar to example above
+
+**404 (Not Found)**
+
+> If no user found, status code 404 will be returned
+
+**401 (Unauthorized)**
+
+> If token information does not match user id in URL parameters status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error registering the user, a response with status code 500 will be returned.
+
+## Update a Childs's Information
+
+HTTP Method: PUT
+
+URL: /api/child/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Body
+
+| Name            | Type   | Required | Description              |
+| --------------- | ------ | -------- | ------------------------ |
+| name            | String | No       | First name of child      |
+| username        | String | No       | Username of child        |
+| total_points    | String | No       | Total points for a child |
+| current_streaks | String | No       | Chore completing streak  |
+| highest_points  | String | No       | Longest running streak   |
+
+### Example
+
+```json
+{
+  "id": 2,
+  "username": "carl01",
+  "name": "Carlin",
+  "parent_id": 2,
+  "role": "child",
+  "total_points": 0,
+  "current_streaks": 0,
+  "highest_points": 0
+}
+```
+
+### Response
+
+**200 (OK)**
+
+> If successfully found, endpoint will return HTTP response with status code and a body similar to example above
+
+**404 (Not Found)**
+
+> If no user found, status code 404 will be returned
+
+**401 (Unauthorized)**
+
+> If token information does not match user id in URL parameters, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error registering the user, a response with status code 500 will be returned.
+
+## Get Parent's information with an array of kids attached
+
+HTTP Method: GET
+
+URL: /api/parent/combined/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+{
+  "parent": {
+    "id": 2,
+    "username": "steph01",
+    "password": "stephanie",
+    "name": "Stephanie",
+    "email": "steph@email.com",
+    "role": "parent"
+  },
+  "children": [
+    {
+      "id": 2,
+      "name": "Carlin",
+      "role": "child",
+      "parent_id": 2,
+      "current_streaks": 0,
+      "total_points": 0,
+      "highest_points": 0
+    }
+  ]
+}
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Get an Array of a Parent's children
+
+HTTP Method: GET
+
+URL: /api/parent/children/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+[
+  {
+    "id": 4,
+    "name": "child1",
+    "role": "child",
+    "parent_id": 5,
+    "current_streaks": 0,
+    "total_points": 0,
+    "highest_points": 0
+  },
+  {
+    "id": 5,
+    "name": "child2",
+    "role": "child",
+    "parent_id": 5,
+    "current_streaks": 0,
+    "total_points": 0,
+    "highest_points": 0
+  }
+]
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
