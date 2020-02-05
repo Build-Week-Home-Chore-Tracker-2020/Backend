@@ -7,7 +7,9 @@ module.exports = {
   findById,
   addChoretoChild,
   removeChoreFromChild,
-  findByParentId
+  findByParentId,
+  updateChore,
+  removeChorefromList
 };
 
 function find() {
@@ -49,6 +51,21 @@ function addChoretoChild(chore) {
 
 function removeChoreFromChild(id) {
   return db("child_details")
+    .where({ id })
+    .del();
+}
+
+function updateChore(id, updated) {
+  return db("chores")
+    .where({ id })
+    .update(updated)
+    .then(() => {
+      return findById(id);
+    });
+}
+
+function removeChorefromList(id) {
+  return db("chores")
     .where({ id })
     .del();
 }
