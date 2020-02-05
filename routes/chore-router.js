@@ -98,6 +98,28 @@ router.get("/child/:id", (req, res) => {
     });
 });
 
+router.get("/combined/:id", (req, res) => {
+  Child.findById(req.params.id)
+    .then(child => {
+      if (!child) {
+        return res.status(404).json({
+          errorMessage: "Child by that Id does not exist"
+        });
+      } else {
+        Child.getChildChores(req.params.id).then(chores => {
+          delete child.password;
+          return res.status(200).json({ child, chores });
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({
+        errorMessage: "Problem getting parent from database"
+      });
+    });
+});
+
 //add a chore to a child working
 router.post("/child/:id", (req, res) => {
   const { name } = req.body;
