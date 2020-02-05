@@ -482,3 +482,197 @@ URL: /api/parent/children/:id
 **500 (Internal Server Error)**
 
 > If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Get a list of Common Chores
+
+HTTP Method: GET
+
+URL: /api/chores/comChores
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Dusting",
+    "description": "make sure all surfaces are free of dust",
+    "points": 100,
+    "createdAt": "2020-02-04 20:19:06",
+    "updatedAt": "2020-02-04 20:19:06",
+    "parent_id": 1
+  },
+  {
+    "id": 2,
+    "name": "Dishes",
+    "description": "wash, dry and put away all dishes",
+    "points": 100,
+    "createdAt": "2020-02-04 20:19:06",
+    "updatedAt": "2020-02-04 20:19:06",
+    "parent_id": 1
+  }
+]
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Get a list of Just the Family's Chores
+
+HTTP Method: GET
+
+URL: /api/chores/:parentId
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+[
+  {
+    "id": 6,
+    "name": "testing",
+    "description": "testing",
+    "points": 100,
+    "createdAt": "2020-02-04 20:39:25",
+    "updatedAt": "2020-02-04 20:39:25",
+    "parent_id": 2
+  }
+]
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Get a list of Common Chores and the Family's Chores Combined
+
+HTTP Method: GET
+
+URL: /api/chores/combined/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Sweeping Kitchen Floor",
+    "description": "sweep free of debris",
+    "points": 100,
+    "createdAt": "2020-02-04 20:38:34",
+    "updatedAt": "2020-02-04 20:38:34",
+    "parent_id": 1
+  },
+  {
+    "id": 2,
+    "name": "testing",
+    "description": "testing",
+    "points": 100,
+    "createdAt": "2020-02-04 20:39:25",
+    "updatedAt": "2020-02-04 20:39:25",
+    "parent_id": 2
+  }
+]
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Create a Custom Family Chore
+
+HTTP Method: POST
+
+URL: /api/chores/:parentId
+
+### Headers
+
+| Name          | Type   | Required | Description                   |
+| ------------- | ------ | -------- | ----------------------------- |
+| Content-Type  | String | Yes      | Must be application/json      |
+| Authorization | String | Yes      | Token from registration/login |
+
+### Body
+
+| Name        | Type   | Required | Description          |
+| ----------- | ------ | -------- | -------------------- |
+| name        | String | Yes      | Name of Chore        |
+| description | String | Yes      | Description of chore |
+
+### Example
+
+```json
+{
+  "name": "chore",
+  "description": "description of chore"
+}
+```
+
+### Response
+
+**201 (Created)**
+
+> If successfully created, endpoint will return HTTP response with status code 200 and the chore information.
+
+**406 (Not Acceptable)**
+
+> If required information is missing, the endpoint will return an HTTP response with a status code of 400
+
+**401 (Not Authorized)**
+
+> If token is not provided, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+
+> If there was a server error creating the project, a response with status code 500 will be returned.
