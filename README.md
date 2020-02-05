@@ -676,3 +676,48 @@ URL: /api/chores/:parentId
 **500 (Internal Server Error)**
 
 > If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Add a chore to a Child
+
+HTTP Method: POST
+
+URL: /api/chores/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                   |
+| ------------- | ------ | -------- | ----------------------------- |
+| Content-Type  | String | Yes      | Must be application/json      |
+| Authorization | String | Yes      | Token from registration/login |
+
+### Body
+
+| Name | Type   | Required | Description   |
+| ---- | ------ | -------- | ------------- |
+| name | String | Yes      | Name of Chore |
+
+### Example
+
+```json
+{
+  "name": "Laundry"
+}
+```
+
+### Response
+
+**201 (Created)**
+
+> If successfully added, endpoint will return HTTP response with status code 200 and a success message
+
+**406 (Not Acceptable)**
+
+> If required information is missing, the endpoint will return an HTTP response with a status code of 400
+
+**401 (Not Authorized)**
+
+> If token is not provided, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+
+> If there was a server error creating the project, a response with status code 500 will be returned.
