@@ -677,6 +677,84 @@ URL: /api/chores/:parentId
 
 > If there was a server error creating the project, a response with status code 500 will be returned.
 
+## Update a Custom Family Chore
+
+HTTP Method: Put
+
+URL: /api/chores/chore/:choreId
+
+### Headers
+
+| Name          | Type   | Required | Description                   |
+| ------------- | ------ | -------- | ----------------------------- |
+| Content-Type  | String | Yes      | Must be application/json      |
+| Authorization | String | Yes      | Token from registration/login |
+
+### Body
+
+| Name        | Type   | Required | Description          |
+| ----------- | ------ | -------- | -------------------- |
+| name        | String | No       | Name of Chore        |
+| description | String | No       | Description of chore |
+
+### Example
+
+```json
+{
+  "name": "updated chore",
+  "description": "updated description of chore"
+}
+```
+
+### Response
+
+**201 (Created)**
+
+> If successfully updated, endpoint will return HTTP response with status code 200 and the chore information.
+
+**406 (Not Acceptable)**
+
+> If required information is missing, the endpoint will return an HTTP response with a status code of 400
+
+**401 (Not Authorized)**
+
+> If token is not provided, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+
+> If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Delete a Custom Family Chore
+
+HTTP Method: DELETE
+
+URL: /api/chores/chore/:choreId
+
+### Headers
+
+| Name          | Type   | Required | Description                   |
+| ------------- | ------ | -------- | ----------------------------- |
+| Content-Type  | String | Yes      | Must be application/json      |
+| Authorization | String | Yes      | Token from registration/login |
+
+### Response
+
+**200 (OK)**
+
+> If successfully deleted, endpoint will return HTTP response with status code 200 and a success message.
+
+**404 (Not Found)**
+
+> If there is not a chore with that chore ID, response status 404 will be returned
+
+**401 (Not Authorized)**
+
+> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+
+> If there was a server error creating the project, a response with status code 500 will be returned.
+
 ## Add a Chore to a Child
 
 HTTP Method: POST
@@ -860,6 +938,51 @@ URL: /api/chores/child/:id
 **200 (OK)**
 
 > If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Get One Chore by the Id
+
+HTTP Method: GET
+
+URL: /api/chores/chore/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+{
+  "id": 1,
+  "name": "Dusting",
+  "description": "make sure all surfaces are free of dust",
+  "points": 100,
+  "createdAt": "2020-02-05 17:47:24",
+  "updatedAt": "2020-02-05 17:47:24",
+  "parent_id": 1
+}
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**404 (Not Found)**
+
+> If there is not a chore with that chore ID, response status 404 will be returned
 
 **401 (Unauthorized)**
 

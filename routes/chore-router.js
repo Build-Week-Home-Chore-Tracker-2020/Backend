@@ -5,6 +5,11 @@ const Child = require("../models/child-model");
 
 //get a specific chore by id
 router.get("/chore/:choreId", (req, res) => {
+  if (!req.params.choreId) {
+    return res.status(404).json({
+      errorMessage: "No chore by that Id was found"
+    });
+  }
   Chores.findById(req.params.choreId)
     .then(chore => {
       return res.status(200).json(chore);
@@ -221,6 +226,11 @@ router.put("/chore/:choreId", (req, res) => {
 
 //deletes a family chore
 router.delete("/chore/:choreId", (req, res) => {
+  if (!choreId) {
+    return res.status(404).json({
+      errorMessage: "Chore with that Id does not exist"
+    });
+  }
   Chores.removeChorefromList(req.params.choreId)
     .then(deleted => {
       return res
