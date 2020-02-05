@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const Parent = require("../models/parent-model");
 
-//getting children of a parent is working
+//getting children of a parent
 router.get("/children/:id", (req, res) => {
   Parent.findById(req.params.id)
     .then(parent => {
@@ -36,7 +36,7 @@ router.get("/children/:id", (req, res) => {
     });
 });
 
-//getting a parent by Id working
+//getting a parent by Id
 router.get("/:id", (req, res) => {
   Parent.findById(req.params.id)
     .then(parent => {
@@ -58,8 +58,12 @@ router.get("/:id", (req, res) => {
 });
 
 //this endpoint combines the Parent information and children is attatched as a seperate array
-//validation
 router.get("/combined/:id", (req, res) => {
+  if (!req.params.id) {
+    return res.status(404).json({
+      errorMessage: "Id does not exist"
+    });
+  }
   Parent.findById(req.params.id)
     .then(parent => {
       if (!parent) {
@@ -80,7 +84,7 @@ router.get("/combined/:id", (req, res) => {
     });
 });
 
-//updated parent profile is working
+//updates parents profile
 router.put("/:id", (req, res) => {
   const { username, name, email } = req.body;
   if (!username) {
@@ -105,6 +109,6 @@ router.put("/:id", (req, res) => {
     });
 });
 
-// router.delete()
+// router.delete()??
 
 module.exports = router;
