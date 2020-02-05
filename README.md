@@ -378,7 +378,7 @@ URL: /api/child/:id
 
 > If there was a server error registering the user, a response with status code 500 will be returned.
 
-## Get Parent's information with an array of kids attached
+## Get Parent's information with an Array of Kids Attached
 
 HTTP Method: GET
 
@@ -677,7 +677,7 @@ URL: /api/chores/:parentId
 
 > If there was a server error creating the project, a response with status code 500 will be returned.
 
-## Add a chore to a Child
+## Add a Chore to a Child
 
 HTTP Method: POST
 
@@ -712,7 +712,7 @@ URL: /api/chores/:id
 
 **406 (Not Acceptable)**
 
-> If required information is missing, the endpoint will return an HTTP response with a status code of 400
+> If required information is missing, the endpoint will return an HTTP response with a status code of 404
 
 **401 (Not Authorized)**
 
@@ -721,3 +721,150 @@ URL: /api/chores/:id
 **500 (Internal Server Error)**
 
 > If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Delete a Chore from a Child
+
+HTTP Method: DELETE
+
+URL: /api/chores/child/:id/:choreId
+
+### Headers
+
+| Name          | Type   | Required | Description                   |
+| ------------- | ------ | -------- | ----------------------------- |
+| Content-Type  | String | Yes      | Must be application/json      |
+| Authorization | String | Yes      | Token from registration/login |
+
+### Response
+
+**200 (OK)**
+
+> If successfully deleted, endpoint will return HTTP response with status code 200
+
+**404 (Not Found)**
+
+> If there is not a chore with that chore ID, response status 404 will be returned
+
+**401 (Not Authorized)**
+
+> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+
+> If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Get Child's information with an Array of Chores Attached
+
+HTTP Method: GET
+
+URL: /api/chores/combined/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+{
+  "child": {
+    "id": 2,
+    "username": "carl01",
+    "name": "Carlin",
+    "parent_id": 2,
+    "role": "child",
+    "total_points": 0,
+    "current_streaks": 0,
+    "highest_points": 0
+  },
+  "chores": [
+    {
+      "name": "Laundry",
+      "description": "sort, wash, dry, fold and put away laundry",
+      "points": 100,
+      "id": 3,
+      "completed": 0,
+      "createdAt": "2020-02-04 20:19:06",
+      "updatedAt": "2020-02-04 20:19:06"
+    },
+    {
+      "name": "Dusting",
+      "description": "make sure all surfaces are free of dust",
+      "points": 100,
+      "id": 4,
+      "completed": 0,
+      "createdAt": "2020-02-04 20:19:06",
+      "updatedAt": "2020-02-04 20:19:06"
+    }
+  ]
+}
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Get a list of Just a Child's Chores
+
+HTTP Method: GET
+
+URL: /api/chores/child/:id
+
+### Headers
+
+| Name          | Type   | Required | Description                        |
+| ------------- | ------ | -------- | ---------------------------------- |
+| Content-Type  | String | Yes      | Must be application/json           |
+| Authorization | String | Yes      | Uses the token from login/register |
+
+### Example
+
+```json
+[
+  {
+    "name": "Mow the lawn",
+    "description": "cut the grass and clean up stray cuttings",
+    "points": 100,
+    "id": 1,
+    "completed": 0,
+    "createdAt": "2020-02-04 20:19:06",
+    "updatedAt": "2020-02-04 20:19:06"
+  },
+  {
+    "name": "Dishes",
+    "description": "wash, dry and put away all dishes",
+    "points": 100,
+    "id": 2,
+    "completed": 0,
+    "createdAt": "2020-02-04 20:19:06",
+    "updatedAt": "2020-02-04 20:19:06"
+  }
+]
+```
+
+### Response
+
+**200 (OK)**
+
+> If successful, endpoint will return a JSON array in the format of the example above.
+
+**401 (Unauthorized)**
+
+> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+
+**500 (Internal Server Error)**
+
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
