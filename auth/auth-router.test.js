@@ -13,8 +13,8 @@ describe("auth-router", function() {
   describe("Parent Register", function() {
     it("registers a parent", async function() {
       const Parent = {
-        username: "testingParent",
-        name: "testingParent",
+        username: "parent01",
+        name: "Parent",
         email: "email@email.com",
         password: "testing"
       };
@@ -29,8 +29,8 @@ describe("auth-router", function() {
   describe("register a child", function() {
     it("registers a child", async function() {
       const Child = {
-        username: "testingParent",
-        name: "testingParent",
+        username: "child01",
+        name: "Child",
         password: "testing"
       };
       const res = await request(Auth)
@@ -44,8 +44,8 @@ describe("auth-router", function() {
   describe("Parent Login", function() {
     it("logs a parent in", async function() {
       const Parent = {
-        username: "testingParent",
-        name: "testingParent",
+        username: "parent01",
+        name: "Parent",
         email: "email@email.com",
         password: "testing"
       };
@@ -57,7 +57,7 @@ describe("auth-router", function() {
       const login = await request(Auth)
         .post("/api/auth/login")
         .expect("Content-Type", /json/)
-        .send({ username: "testingParent", password: "testing" });
+        .send({ username: "parent01", password: "testing" });
       expect(login.status).toBe(200);
     });
   });
@@ -65,8 +65,8 @@ describe("auth-router", function() {
   describe("Child Login", function() {
     it("logs a child in", async function() {
       const Parent = {
-        username: "testingParent",
-        name: "testingParent",
+        username: "parent01",
+        name: "Parent",
         email: "email@email.com",
         password: "testing"
       };
