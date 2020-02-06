@@ -22,7 +22,7 @@ router.get("/chore/:choreId", (req, res) => {
     });
 });
 
-//getting all common chores
+//get all common chores
 router.get("/comChores", (req, res) => {
   Chores.findByParentId(1)
     .then(chores => {
@@ -37,7 +37,7 @@ router.get("/comChores", (req, res) => {
     });
 });
 
-//this endpoint gets the chores just for that familly
+// get the chores just for a familly
 router.get("/:parentId", (req, res) => {
   if (!req.params.parentId) {
     return res.status(404).json({
@@ -103,7 +103,7 @@ router.post("/:parentId", (req, res) => {
     });
 });
 
-//getting a childs chores
+//get a childs chores
 router.get("/child/:id", (req, res) => {
   Child.getChildChores(req.params.id)
     .then(chores => {
@@ -187,8 +187,7 @@ router.post("/child/:id", (req, res) => {
   });
 });
 
-//deleting chore from child works, may want to add child id to endpoint??? or just have it as /:id?
-//check this again!!
+//delete a chore from a child
 router.delete("/child/:id/:choreId", (req, res) => {
   if (!req.params.id) {
     return res.status(404).json({
@@ -213,7 +212,7 @@ router.delete("/child/:id/:choreId", (req, res) => {
     });
 });
 
-//updates a family chore
+//update a family chore
 router.put("/chore/:choreId", (req, res) => {
   const { name, description } = req.body;
   if (!name) {
@@ -232,7 +231,7 @@ router.put("/chore/:choreId", (req, res) => {
     });
 });
 
-//deletes a family chore
+//delete a family chore
 router.delete("/chore/:choreId", (req, res) => {
   if (!choreId) {
     return res.status(404).json({
