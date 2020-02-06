@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const Child = require("../models/child-model");
 
+//get a child by Id
 router.get("/:id", (req, res) => {
   Child.findById(req.params.id)
     .then(child => {
@@ -22,6 +23,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//update a childs informations
 router.put("/:id", (req, res) => {
   const { username, name } = req.body;
   if (!username) {
