@@ -582,7 +582,7 @@ URL: /api/chores/:parentId
 
 HTTP Method: GET
 
-URL: /api/chores/combined/:id
+URL: /api/chores/comChores/:parentId
 
 ### Headers
 
@@ -625,6 +625,10 @@ URL: /api/chores/combined/:id
 **401 (Unauthorized)**
 
 > If token information does not match user id in URL parameters, status code 401 will be returned
+
+**404 (Not Found)**
+
+> If there is not a parent with that ID, response status 404 will be returned
 
 **500 (Internal Server Error)**
 
