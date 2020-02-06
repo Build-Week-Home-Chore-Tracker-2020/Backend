@@ -121,20 +121,20 @@ URL: /api/auth/login
 
 ```json
 {
-  "name": "Brittany",
+  "username": "brittany01",
   "password": "password"
 }
 ```
 
 ### Response
 
-**200 (Created)**
+**200 (OK)**
 
 > If successfully logged in, endpoint will return HTTP response with status code and a body with a token, welcome message and parent's information.
 
 **400 (Bad Request)**
 
-> If required information is missing, the endpoint will return an HTTP response with a status code of 401.
+> If required information is missing, the endpoint will return an HTTP response with a status code of 400.
 
 **500 (Internal Server Error)**
 
@@ -170,13 +170,13 @@ URL: /api/auth/login/child
 
 ### Response
 
-**200 (Created)**
+**200 (OK)**
 
 > If successfully logged in, endpoint will return HTTP response with status code and a body with a token, welcome message and child's information.
 
 **400 (Bad Request)**
 
-> If required information is missing, the endpoint will return an HTTP response with a status code of 401.
+> If required information is missing, the endpoint will return an HTTP response with a status code of 400.
 
 **500 (Internal Server Error)**
 
@@ -242,9 +242,9 @@ URL: /api/parent/:id
 
 | Name     | Type   | Required | Description            |
 | -------- | ------ | -------- | ---------------------- |
-| name     | String | No       | First name of parent   |
-| username | String | No       | username of parent     |
-| email    | String | No       | Parent's email address |
+| name     | String | Yes      | First name of parent   |
+| username | String | Yes      | username of parent     |
+| email    | String | Yes      | Parent's email address |
 
 ### Example
 
@@ -339,8 +339,8 @@ URL: /api/child/:id
 
 | Name            | Type   | Required | Description              |
 | --------------- | ------ | -------- | ------------------------ |
-| name            | String | No       | First name of child      |
-| username        | String | No       | Username of child        |
+| name            | String | Yes      | First name of child      |
+| username        | String | Yes      | Username of child        |
 | total_points    | String | No       | Total points for a child |
 | current_streaks | String | No       | Chore completing streak  |
 | highest_points  | String | No       | Longest running streak   |
@@ -364,11 +364,11 @@ URL: /api/child/:id
 
 **200 (OK)**
 
-> If successfully found, endpoint will return HTTP response with status code and a body similar to example above
+> If successfully updated, endpoint will return HTTP response with status code and a body similar to example above
 
-**404 (Not Found)**
+**400 (Bad Request)**
 
-> If no user found, status code 404 will be returned
+> If missing info, status code 400 will be returned
 
 **401 (Unauthorized)**
 
@@ -425,7 +425,7 @@ URL: /api/parent/combined/:id
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
 
 **500 (Internal Server Error)**
 
@@ -477,7 +477,7 @@ URL: /api/parent/children/:id
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
 
 **500 (Internal Server Error)**
 
@@ -529,7 +529,7 @@ URL: /api/chores/comChores
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
 
 **500 (Internal Server Error)**
 
@@ -572,7 +572,7 @@ URL: /api/chores/:parentId
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
 
 **500 (Internal Server Error)**
 
@@ -582,7 +582,7 @@ URL: /api/chores/:parentId
 
 HTTP Method: GET
 
-URL: /api/chores/combined/:id
+URL: /api/chores/comChores/:parentId
 
 ### Headers
 
@@ -624,7 +624,11 @@ URL: /api/chores/combined/:id
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
+
+**404 (Not Found)**
+
+> If there is not a parent with that ID, response status 404 will be returned
 
 **500 (Internal Server Error)**
 
@@ -665,7 +669,7 @@ URL: /api/chores/:parentId
 
 > If successfully created, endpoint will return HTTP response with status code 200 and the chore information.
 
-**406 (Not Acceptable)**
+**400 (Bad Request)**
 
 > If required information is missing, the endpoint will return an HTTP response with a status code of 400
 
@@ -679,7 +683,7 @@ URL: /api/chores/:parentId
 
 ## Update a Custom Family Chore
 
-HTTP Method: Put
+HTTP Method: PUT
 
 URL: /api/chores/chore/:choreId
 
@@ -694,8 +698,8 @@ URL: /api/chores/chore/:choreId
 
 | Name        | Type   | Required | Description          |
 | ----------- | ------ | -------- | -------------------- |
-| name        | String | No       | Name of Chore        |
-| description | String | No       | Description of chore |
+| name        | String | Yes      | Name of Chore        |
+| description | String | Yes      | Description of chore |
 
 ### Example
 
@@ -708,11 +712,11 @@ URL: /api/chores/chore/:choreId
 
 ### Response
 
-**201 (Created)**
+**200 (OK)**
 
 > If successfully updated, endpoint will return HTTP response with status code 200 and the chore information.
 
-**406 (Not Acceptable)**
+**400 (Bad Request)**
 
 > If required information is missing, the endpoint will return an HTTP response with a status code of 400
 
@@ -749,7 +753,7 @@ URL: /api/chores/chore/:choreId
 
 **401 (Not Authorized)**
 
-> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+> If token is not provided the endpoint will return HTTP response with status code 401
 
 **500 (Internal Server Error)**
 
@@ -788,7 +792,7 @@ URL: /api/chores/:id
 
 > If successfully added, endpoint will return HTTP response with status code 200 and a success message
 
-**406 (Not Acceptable)**
+**400 (Bad Request)**
 
 > If required information is missing, the endpoint will return an HTTP response with a status code of 404
 
@@ -825,7 +829,7 @@ URL: /api/chores/child/:id/:choreId
 
 **401 (Not Authorized)**
 
-> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+> If token is not provided the endpoint will return HTTP response with status code 401
 
 **500 (Internal Server Error)**
 
@@ -889,7 +893,7 @@ URL: /api/chores/combined/:id
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
 
 **500 (Internal Server Error)**
 
@@ -941,7 +945,7 @@ URL: /api/chores/child/:id
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
 
 **500 (Internal Server Error)**
 
@@ -986,7 +990,7 @@ URL: /api/chores/chore/:id
 
 **401 (Unauthorized)**
 
-> If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
+> If token information does not match user id in URL parameters, status code 401 will be returned
 
 **500 (Internal Server Error)**
 

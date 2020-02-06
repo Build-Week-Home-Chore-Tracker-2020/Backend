@@ -52,7 +52,7 @@ router.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (!user) {
-        return res.status(401).json({
+        return res.status(404).json({
           errorMessage: "username does not exist"
         });
       } else {
@@ -117,7 +117,7 @@ router.post("/login/child", (req, res) => {
     .first()
     .then(user => {
       if (!user) {
-        return res.status(401).json({
+        return res.status(404).json({
           errorMessage: "username does not exist"
         });
       } else {

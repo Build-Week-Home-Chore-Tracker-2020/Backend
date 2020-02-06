@@ -2,13 +2,13 @@ const router = require("express").Router();
 
 const Child = require("../models/child-model");
 
-//get child by ID working
+//get a child by Id
 router.get("/:id", (req, res) => {
   Child.findById(req.params.id)
     .then(child => {
       if (!child) {
         return res
-          .status(400)
+          .status(404)
           .json({ errorMessage: "No child by that Id exists" });
       } else {
         delete child.password;
@@ -23,6 +23,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//update a childs informations
 router.put("/:id", (req, res) => {
   const { username, name } = req.body;
   if (!username) {
