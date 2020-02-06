@@ -22,6 +22,19 @@ describe("parent-model", function() {
     });
   });
 
+  describe("findBy", function() {
+    it("finds a parent by username", async function() {
+      const newParent = await Parent.add({
+        username: "testingParent",
+        name: "testingParent",
+        email: "email@email.com",
+        password: "testing"
+      });
+      const parent = await Parent.findBy({ username: newParent.username });
+      expect(parent).toHaveLength(1);
+    });
+  });
+
   describe("findById", function() {
     it("finds a parent by id", async function() {
       const newParent = await Parent.add({

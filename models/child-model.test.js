@@ -33,9 +33,8 @@ describe("child-model", function() {
         password: "testing",
         parent_id: 2
       });
-      //   console.log(newChild);
-      //   const child = await Child.findBy("testing");
-      //   expect(user.name).toBe("testing");
+      const child = await Child.findBy({ username: newChild.username });
+      expect(child).toHaveLength(1);
     });
   });
 

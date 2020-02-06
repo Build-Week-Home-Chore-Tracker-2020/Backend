@@ -24,17 +24,17 @@ describe("chore-model", function() {
     });
   });
 
-  //   describe("findBy", function() {
-  //     it("finds a chore by name", async function() {
-  //       const newChore = await Chore.add({
-  //         name: "testChore",
-  //         description: "chore description",
-  //         parent_id: 1
-  //       });
-  //         const found = await Chore.findBy(newChore.name);
-  //         expect(found).toHaveLength(1);
-  //     });
-  //   });
+  describe("findBy", function() {
+    it("finds a chore by name", async function() {
+      const newChore = await Chore.add({
+        name: "testChore",
+        description: "chore description",
+        parent_id: 1
+      });
+      const found = await Chore.findBy({ name: newChore.name });
+      expect(found.name).toBe("testChore");
+    });
+  });
 
   describe("findByParentId", function() {
     it("finds chores only with parent Id attached to it", async function() {
