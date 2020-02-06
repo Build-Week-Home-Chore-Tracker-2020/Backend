@@ -10,7 +10,7 @@ module.exports = {
 };
 
 function find() {
-  return db("child").select("id", "username", "password");
+  return db("child").select("id", "username", "name");
 }
 
 async function add(child) {
