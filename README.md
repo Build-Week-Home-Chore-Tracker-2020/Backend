@@ -121,7 +121,7 @@ URL: /api/auth/login
 
 ```json
 {
-  "name": "Brittany",
+  "username": "brittany01",
   "password": "password"
 }
 ```
