@@ -763,7 +763,7 @@ URL: /api/chores/chore/:choreId
 
 HTTP Method: POST
 
-URL: /api/chores/:id
+URL: /api/chores/child/:id
 
 ### Headers
 
